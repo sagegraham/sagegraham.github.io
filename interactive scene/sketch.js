@@ -16,6 +16,7 @@ let shapeWidth;
 let dVariables = 5; //delta variables is the change factor for r,g,b,a,height,width
 let easel;
 let event;
+let easelPostion;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -24,12 +25,18 @@ function setup() {
   b = 0;
   a = 0;
   shapeColour = color(r,g,b,a);
+  easelPostion = {
+    x: windowWidth/3,
+    y: windowHeight/6,
+    width: windowWidth/3,
+    height: windowHeight/2,
+  };
 }
 
 function draw() {
   background(220);
   fill("white"); //creating a canvas for the input
-  easel = rect(windowWidth/3, windowHeight/6, windowWidth/3, windowHeight/2);
+  easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
   colourBoxUpdate();
 }
 
@@ -133,3 +140,7 @@ function keyPressed() {
   }
 }
 
+//inEasel makes it so you can only draw in the easel.
+function inEasel() {
+
+}
