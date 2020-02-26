@@ -5,7 +5,7 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-//user controlled values & setup variables
+//user controlled values
 let r;
 let g;
 let b;
@@ -13,10 +13,16 @@ let a;
 let shapeColour;
 let shapeHeight;
 let shapeWidth;
+let penSize; //(strokeWeight) controller,, use mousewheel to change it
+
+
 let dVariables = 5; //delta variables is the change factor for r,g,b,a,height,width
-let easel;
-let event;
+let easel; //dont think this needs to be a variable
 let easelPostion;
+
+//event variables
+let event;
+let song;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -31,6 +37,7 @@ function setup() {
     width: windowWidth/3,
     height: windowHeight/2,
   };
+  let penSize = 5;
 }
 
 function draw() {
@@ -41,9 +48,7 @@ function draw() {
 }
 
 function colourBoxUpdate() {
-  // console.log("updated");
   shapeColour = color(r,g,b,255);
-  console.log(r,g,b,a);
   fill(shapeColour);
   rect(50, 50, 100, 100);
 
@@ -51,7 +56,6 @@ function colourBoxUpdate() {
 
 function keyPressed() {
   //keys are used to adjust most of the scene's settings: colour, size, and shapes made.
-  console.log(key);
   //r value
   if (key === "[" && r <= 255 - dVariables) { 
     r+=dVariables;
@@ -62,7 +66,6 @@ function keyPressed() {
   }
   //g value
   else if (key === ";" && g <= 255 - dVariables) {
-    console.log(g);
     g+=dVariables;
   }
   else if (key === "'" && g >= dVariables) {
@@ -85,7 +88,8 @@ function keyPressed() {
     a -= dVariables;
   }
 
-  //shape sizes: height
+  //shape sizes: 
+  //height
   else if (key === "=") {
     if (shapeHeight <= 400) {
       shapeHeight += dVariables;
@@ -108,39 +112,46 @@ function keyPressed() {
     }
   }
 
-  //must edit so that this is only active on canvas, but im too lazy rn
-  //shape creation: circle
-  else if (key === "c") {
+  //shape creation: //jesus i just realized i need to make this so these only show on the easel
+  //circle
+  else if (key === "c" && inEasel()) {
     fill(r, g, b, a);
     ellipse(mouseX, mouseY, shapeHeight);
   }
 
   //oval
-  else if (key === "o") {
+  else if (key === "o" && inEasel()) {
     fill(r, g, b, a);
     ellipse(mouseX, mouseY, shapeHeight, shapeWidth);
   }
 
   //square
-  else if (key === "s") {
+  else if (key === "s" && inEasel()) {
     fill(r, g, b, a);
     rect(mouseX, mouseY, shapeHeight, shapeHeight);
   }  
 
   //rectangle
-  else if (key === "r") {
+  else if (key === "r" && inEasel()) {
     fill(r, g, b, a);
     rect(mouseX, mouseY, shapeHeight, shapeWidth);
   } 
   
   //triangle
-  else if (key === "t") {
+  else if (key === "t" && inEasel()) {
     fill(r, g, b, a);
-    ellipse(mouseX - shapeWidth/2, mouseY - shapeHeight/2, mouseX, mouseY, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
+    triangle(mouseX - shapeWidth/2, mouseY - shapeHeight/2, mouseX, mouseY, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
   }
 }
 
-//inEasel makes it so you can only draw in the easel.
+//changes pen stroke size
+function mouseWheel(event) {
+  penSize += event.delta;
+}
+
+//inEasel does exactly what it sounds like.
 function inEasel() {
+  return (mouseX >= easelPostion.x && mouseY <= easelPostion.y
+    && mouseX <= easelPostion.x + easelPostion.width && mouseY >= easelPostion.y + easelPostion.height);
 
 }
