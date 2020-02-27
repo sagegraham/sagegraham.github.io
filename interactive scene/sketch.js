@@ -11,7 +11,7 @@ let g;
 let b;
 let a;
 let shapeColour;
-let shapeHeight;
+let shapeHeight = 50;
 let shapeWidth;
 let penSize; //(strokeWeight) controller,, use mousewheel to change it
 
@@ -29,7 +29,7 @@ function setup() {
   r = 0;
   g = 0;
   b = 0;
-  a = 0;
+  a = 255;
   shapeColour = color(r,g,b,a);
   easelPostion = {
     x: windowWidth/3,
@@ -37,18 +37,24 @@ function setup() {
     width: windowWidth/3,
     height: windowHeight/2,
   };
-  let penSize = 5;
+  penSize = 5; //stupid move this
+  easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
 }
 
-function draw() {
-  background(220);
-  fill("white"); //creating a canvas for the input
-  easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
+function draw() { //mission: refresh everything but easel
+  //background(220);
+  fill("white");
+  stroke(0);
+  //needs work, theres a random line man also stroke 0 isnt working?
+  rect(0, 0, windowWidth/3, windowHeight); //left of easel
+  rect(easelPostion.x, 0, windowWidth*2/3, windowHeight/4); //above easel
+  rect(windowWidth*2/3 +1, windowHeight/4, windowWidth/3, windowHeight/2); //right of easel
+  rect(easelPostion.x, windowHeight*3/4, windowWidth*2/3, windowHeight/4); //below easel
   colourBoxUpdate();
 }
 
 function colourBoxUpdate() {
-  shapeColour = color(r,g,b,255);
+  shapeColour = color(r,g,b,a);
   fill(shapeColour);
   rect(50, 50, 100, 100);
 
@@ -114,7 +120,7 @@ function keyPressed() {
 
   //shape creation: //jesus i just realized i need to make this so these only show on the easel
   //circle
-  else if (key === "c" && inEasel()) {
+  else if (key === "c") { // && inEasel()) {
     fill(r, g, b, a);
     ellipse(mouseX, mouseY, shapeHeight);
   }
@@ -138,9 +144,10 @@ function keyPressed() {
   } 
   
   //triangle
-  else if (key === "t" && inEasel()) {
+  else if (key === "t") {// && inEasel()) {
     fill(r, g, b, a);
     triangle(mouseX - shapeWidth/2, mouseY - shapeHeight/2, mouseX, mouseY, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
+    console.log("Triangle!");
   }
 }
 
