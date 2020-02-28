@@ -12,7 +12,7 @@ let b;
 let a;
 let shapeColour;
 let shapeHeight = 50;
-let shapeWidth;
+let shapeWidth = 50;
 let penSize; //(strokeWeight) controller,, use mousewheel to change it
 
 
@@ -35,20 +35,22 @@ function setup() {
     x: windowWidth/3,
     y: windowHeight/6,
     width: windowWidth/3,
-    height: windowHeight/2,
+    height: windowHeight*2/3,
   };
   penSize = 5; //stupid move this
+  strokeWeight(1);
+  stroke("blue"); //coloured just for now
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
 }
 
 function draw() { //mission: refresh everything but easel
   //background(220);
   fill("white");
-  stroke(0);
-  //needs work, theres a random line man also stroke 0 isnt working?
-  rect(0, 0, windowWidth/3, windowHeight); //left of easel
-  rect(easelPostion.x, 0, windowWidth*2/3, windowHeight/4); //above easel
-  rect(windowWidth*2/3 +1, windowHeight/4, windowWidth/3, windowHeight/2); //right of easel
+  strokeWeight(1);
+  stroke("red"); // stroke colour for now just to check
+  rect(0, 0, windowWidth/3 -1, windowHeight); //left of easel
+  rect(easelPostion.x, 0, windowWidth*2/3, windowHeight/4 - 1); //above easel
+  rect(windowWidth*2/3 +1, windowHeight/4, windowWidth/3 + 1, windowHeight/2); //right of easel
   rect(easelPostion.x, windowHeight*3/4, windowWidth*2/3, windowHeight/4); //below easel
   colourBoxUpdate();
 }
@@ -56,13 +58,15 @@ function draw() { //mission: refresh everything but easel
 function colourBoxUpdate() {
   shapeColour = color(r,g,b,a);
   fill(shapeColour);
-  rect(50, 50, 100, 100);
+  rect(50, 50, 150, 150);
 
 }
 
 function keyPressed() {
   //keys are used to adjust most of the scene's settings: colour, size, and shapes made.
   //r value
+  noStroke();
+
   if (key === "[" && r <= 255 - dVariables) { 
     r+=dVariables;
   }
@@ -118,7 +122,6 @@ function keyPressed() {
     }
   }
 
-  //shape creation: //jesus i just realized i need to make this so these only show on the easel
   //circle
   else if (key === "c") { // && inEasel()) {
     fill(r, g, b, a);
@@ -126,13 +129,13 @@ function keyPressed() {
   }
 
   //oval
-  else if (key === "o" && inEasel()) {
+  else if (key === "o") {
     fill(r, g, b, a);
     ellipse(mouseX, mouseY, shapeHeight, shapeWidth);
   }
 
   //square
-  else if (key === "s" && inEasel()) {
+  else if (key === "s") {
     fill(r, g, b, a);
     rect(mouseX, mouseY, shapeHeight, shapeHeight);
   }  
@@ -144,10 +147,9 @@ function keyPressed() {
   } 
   
   //triangle
-  else if (key === "t") {// && inEasel()) {
+  else if ((key === "t") && inEasel()) {
     fill(r, g, b, a);
-    triangle(mouseX - shapeWidth/2, mouseY - shapeHeight/2, mouseX, mouseY, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
-    console.log("Triangle!");
+    triangle(mouseX - shapeWidth/2, mouseY + shapeHeight/2, mouseX, mouseY - shapeHeight/2, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
   }
 }
 
@@ -158,7 +160,7 @@ function mouseWheel(event) {
 
 //inEasel does exactly what it sounds like.
 function inEasel() {
-  return (mouseX >= easelPostion.x && mouseY <= easelPostion.y
-    && mouseX <= easelPostion.x + easelPostion.width && mouseY >= easelPostion.y + easelPostion.height);
+  return (mouseX >= easelPostion.x && mouseY >= easelPostion.y
+    && mouseX <= easelPostion.x + easelPostion.width && mouseY <= easelPostion.y + easelPostion.height);
 
 }
