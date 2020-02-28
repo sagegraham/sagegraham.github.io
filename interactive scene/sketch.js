@@ -5,6 +5,13 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+// ****to do list****
+//use text to show rgb
+//use text to show key (maybe have either in button or if rmb is pressed?)
+//make mouse drawing work (ugh)
+//music!
+
+
 //user controlled values
 let r;
 let g;
@@ -30,7 +37,7 @@ function setup() {
   g = 0;
   b = 0;
   a = 255;
-  shapeColour = color(r,g,b,a);
+  // shapeColour = color(r,g,b,a);
   easelPostion = {
     x: windowWidth/3,
     y: windowHeight/6,
@@ -38,26 +45,25 @@ function setup() {
     height: windowHeight*2/3,
   };
   penSize = 5; //stupid move this
-  strokeWeight(1);
-  stroke("blue"); //coloured just for now
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
 }
 
 function draw() { //mission: refresh everything but easel
-  //background(220);
-  fill("white");
-  strokeWeight(1);
-  stroke("red"); // stroke colour for now just to check
-  rect(0, 0, windowWidth/3 -1, windowHeight); //left of easel
-  rect(easelPostion.x, 0, windowWidth*2/3, windowHeight/4 - 1); //above easel
-  rect(windowWidth*2/3 +1, windowHeight/4, windowWidth/3 + 1, windowHeight/2); //right of easel
+  noStroke();
+  fill(220);
+  rect(0, 0, windowWidth/3, windowHeight); //left of easel
+  rect(easelPostion.x - 2, 0, windowWidth*2/3, windowHeight/4 - 1); //above easel
+  rect(windowWidth*2/3, windowHeight/4 - 2, windowWidth/3 + 1, windowHeight/2 + 1); //right of easel
   rect(easelPostion.x, windowHeight*3/4, windowWidth*2/3, windowHeight/4); //below easel
   colourBoxUpdate();
+  // if (mouseIsPressed) {
+  //   line(mouseX, mouseY, pmouseX, pmouseY);
+  // }
 }
 
 function colourBoxUpdate() {
-  shapeColour = color(r,g,b,a);
-  fill(shapeColour);
+  // shapeColour = color(r,g,b,a);
+  fill(r,g,b,a);
   rect(50, 50, 150, 150);
 
 }
@@ -65,7 +71,6 @@ function colourBoxUpdate() {
 function keyPressed() {
   //keys are used to adjust most of the scene's settings: colour, size, and shapes made.
   //r value
-  noStroke();
 
   if (key === "[" && r <= 255 - dVariables) { 
     r+=dVariables;
@@ -147,9 +152,14 @@ function keyPressed() {
   } 
   
   //triangle
-  else if ((key === "t") && inEasel()) {
+  else if (key === "t" && inEasel()) {
     fill(r, g, b, a);
     triangle(mouseX - shapeWidth/2, mouseY + shapeHeight/2, mouseX, mouseY - shapeHeight/2, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
+  }
+
+  //clearing easel
+  else if (key === " ") {
+    clearEasel();
   }
 }
 
@@ -158,9 +168,22 @@ function mouseWheel(event) {
   penSize += event.delta;
 }
 
+//mouse drawing function
+function mousePressed() {
+  // if (mouseIsPressed) {
+  //   line(mouseX, mouseY, pmouseX, pmouseY);
+  // }
+}
+
 //inEasel does exactly what it sounds like.
 function inEasel() {
   return (mouseX >= easelPostion.x && mouseY >= easelPostion.y
     && mouseX <= easelPostion.x + easelPostion.width && mouseY <= easelPostion.y + easelPostion.height);
 
+}
+
+//redraws easel to clear any previous drawings. 
+function clearEasel() {
+  fill("white");
+  easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
 }
