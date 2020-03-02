@@ -11,7 +11,6 @@
 //make mouse drawing work (ugh)
 //music!
 
-
 //user controlled values
 let r;
 let g;
@@ -66,6 +65,16 @@ function colourBoxUpdate() {
   fill(r,g,b,a);
   rect(50, 50, 150, 150);
 
+  fill("black");
+  if (g === 255 && r === 0 && b === 0 && a === 255) {
+    text("green is not a creative colour!", 50, 250);
+  }
+  else {
+    text("red value: "+r, 50, 250);
+    text("blue value: "+b, 50, 275);
+    text("green value: "+g, 50, 300);
+    text("alpha value (translucency): "+a, 50, 325);
+  }
 }
 
 function keyPressed() {
