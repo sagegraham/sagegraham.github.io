@@ -6,10 +6,11 @@
 // - describe what you did to take this project "above and beyond"
 
 // ****to do list****
-//use text to show rgb
-//use text to show key (maybe have either in button or if rmb is pressed?)
+//use text to show rgb (check!)
+//use text to show key (maybe have either in button or if rmb is pressed?) (check!)
 //make mouse drawing work (ugh)
 //music!
+//clean up draw loop
 
 //user controlled values
 let r;
@@ -58,6 +59,7 @@ function draw() { //mission: refresh everything but easel
   // if (mouseIsPressed) {
   //   line(mouseX, mouseY, pmouseX, pmouseY);
   // }
+  displayKey();
 }
 
 function colourBoxUpdate() {
@@ -67,14 +69,52 @@ function colourBoxUpdate() {
 
   fill("black");
   if (g === 255 && r === 0 && b === 0 && a === 255) {
-    text("green is not a creative colour!", 50, 250);
+    text("green is not a creative colour!", 50, 250); //heheh easter egg time
   }
   else {
     text("red value: "+r, 50, 250);
     text("blue value: "+b, 50, 275);
     text("green value: "+g, 50, 300);
     text("alpha value (translucency): "+a, 50, 325);
+
+    text("shape height: "+shapeHeight, 50, 375);
+    text("shape width: "+shapeWidth, 50, 400);
   }
+}
+
+function displayKey() { // shows all the instructions.
+  textAlign(LEFT, TOP);
+  fill(0);
+  text("this is the key for all the stupid buttons!", easelPostion.x, easelPostion.y + easelPostion.height - 50);
+
+  text("red values:", easelPostion.x + 20, easelPostion.y + easelPostion.height - 30);
+  text("[ for more, ] for less.", easelPostion.x + 30, easelPostion.y + easelPostion.height - 15);
+
+  text("green values:", easelPostion.x + 20, easelPostion.y + easelPostion.height);
+  text("; for more, ' for less.", easelPostion.x + 30, easelPostion.y + easelPostion.height + 15);
+
+  text("blue values:", easelPostion.x + 20, easelPostion.y + easelPostion.height + 30);
+  text(", for more, . for less.", easelPostion.x + 30, easelPostion.y + easelPostion.height + 45);
+
+  text("alpha (translucency) values:", easelPostion.x + 20, easelPostion.y + easelPostion.height + 60);
+  text("z for more, x for less.", easelPostion.x + 30, easelPostion.y + easelPostion.height + 75);
+
+  text("shape size:", easelPostion.x + easelPostion.x /2, easelPostion.y + easelPostion.height - 50);
+  text("shape height: - is larger (haha its less but more!), = is smaller.", easelPostion.x + easelPostion.x /2 + 30, easelPostion.y + easelPostion.height - 30);
+  text("shape width: 9 is larger and 0 is smaller.", easelPostion.x + easelPostion.x /2 + 30, easelPostion.y + easelPostion.height - 15);
+
+  text("shapes!", easelPostion.x + easelPostion.x /2, easelPostion.y + easelPostion.height);
+  text("R for rectangle. C for circle. T for triangle. S for square. O for oval.", 
+    easelPostion.x + easelPostion.x /2 + 30, easelPostion.y + easelPostion.height + 15);
+  text("note: circles and squares are controlled in size by the shape height.",
+    easelPostion.x + easelPostion.x /2, easelPostion.y + easelPostion.height + 30);
+  text("you're gonna mess up, so remember that the space bar clears the canvas!", 
+    easelPostion.x + easelPostion.x /2, easelPostion.y + easelPostion.height + 45);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  setup();
 }
 
 function keyPressed() {
@@ -114,23 +154,23 @@ function keyPressed() {
 
   //shape sizes: 
   //height
-  else if (key === "=") {
+  else if (key === "-") {
     if (shapeHeight <= 400) {
       shapeHeight += dVariables;
     }
   }
-  else if (key === "-") {
+  else if (key === "=") {
     if (shapeHeight >= dVariables) {
       shapeHeight -= dVariables;
     }
   }
   //width
-  else if (key === "0") {
+  else if (key === "9") {
     if (shapeWidth <= 400) {
       shapeWidth += dVariables;
     }
   }
-  else if (key === "9") {
+  else if (key === "0") {
     if (shapeWidth >= dVariables) {
       shapeWidth -= dVariables;
     }
