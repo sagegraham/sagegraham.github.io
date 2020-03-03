@@ -8,8 +8,9 @@
 // ****to do list****
 //use text to show rgb (check!)
 //use text to show key (maybe have either in button or if rmb is pressed?) (check!)
-//make mouse drawing work (ugh)
+//make mouse drawing work (ugh) (check!)
 //music!
+  //will have to add library to index file
 //clean up draw loop
 
 //user controlled values
@@ -24,6 +25,7 @@ let penSize; //(strokeWeight) controller,, use mousewheel to change it
 
 
 let dVariables = 5; //delta variables is the change factor for r,g,b,a,height,width
+let dPenSize = 2; //change factor for pen size
 let easel; //dont think this needs to be a variable
 let easelPostion;
 
@@ -44,26 +46,28 @@ function setup() {
     width: windowWidth/3,
     height: windowHeight*2/3,
   };
-  penSize = 5; //stupid move this
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
+  penSize = 1;
 }
 
 function draw() { //mission: refresh everything but easel
   noStroke();
+  refreshOutsideEasel();
+  colourBoxUpdate();
+  displayKey();
+  drawLines();
+}
+function refreshOutsideEasel() {
   fill(220);
   rect(0, 0, windowWidth/3, windowHeight); //left of easel
   rect(easelPostion.x - 2, 0, windowWidth*2/3, windowHeight/4 - 1); //above easel
   rect(windowWidth*2/3, windowHeight/4 - 2, windowWidth/3 + 1, windowHeight/2 + 1); //right of easel
   rect(easelPostion.x, windowHeight*3/4, windowWidth*2/3, windowHeight/4); //below easel
-  colourBoxUpdate();
-  // if (mouseIsPressed) {
-  //   line(mouseX, mouseY, pmouseX, pmouseY);
-  // }
-  displayKey();
 }
 
 function colourBoxUpdate() {
   // shapeColour = color(r,g,b,a);
+  noStroke();
   fill(r,g,b,a);
   rect(50, 50, 150, 150);
 
@@ -112,12 +116,13 @@ function displayKey() { // shows all the instructions.
     easelPostion.x + easelPostion.x /2, easelPostion.y + easelPostion.height + 45);
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  setup();
-}
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+//   setup();
+// }
 
 function keyPressed() {
+  noStroke();
   //keys are used to adjust most of the scene's settings: colour, size, and shapes made.
   //r value
 
@@ -213,15 +218,16 @@ function keyPressed() {
 }
 
 //changes pen stroke size
-function mouseWheel(event) {
-  penSize += event.delta;
+function mouseWheel() {
+  penSize += dPenSize;
 }
-
-//mouse drawing function
-function mousePressed() {
-  // if (mouseIsPressed) {
-  //   line(mouseX, mouseY, pmouseX, pmouseY);
-  // }
+function drawLines() {
+  stroke(color(r, g, b, a));
+  strokeCap(ROUND);
+  strokeWeight(penSize);
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
 }
 
 //inEasel does exactly what it sounds like.
@@ -233,6 +239,7 @@ function inEasel() {
 
 //redraws easel to clear any previous drawings. 
 function clearEasel() {
+  noStroke();
   fill("white");
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
 }
