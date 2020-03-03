@@ -10,8 +10,10 @@
 //use text to show key (maybe have either in button or if rmb is pressed?) (check!)
 //make mouse drawing work (ugh) (check!)
 //music!
-  //will have to add library to index file
+  //will have to add library to index file (check!)
+  //add music files to "assets"
 //clean up draw loop
+//add variables to folders
 
 //user controlled values
 let r;
@@ -28,9 +30,10 @@ let dVariables = 5; //delta variables is the change factor for r,g,b,a,height,wi
 let dPenSize = 2; //change factor for pen size
 let easel; //dont think this needs to be a variable
 let easelPostion;
+let musicButton;
 
 //event variables
-let event;
+let event; //drawing and song menu
 let song;
 
 function setup() {
@@ -39,7 +42,6 @@ function setup() {
   g = 0;
   b = 0;
   a = 255;
-  // shapeColour = color(r,g,b,a);
   easelPostion = {
     x: windowWidth/3,
     y: windowHeight/6,
@@ -47,16 +49,24 @@ function setup() {
     height: windowHeight*2/3,
   };
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
+  musicButton = {
+    x: windowWidth*7/8,
+    y: windowHeight/6,
+    diameter: windowWidth/10,
+  };
   penSize = 1;
+  event = "drawing";
 }
 
 function draw() { //mission: refresh everything but easel
   noStroke();
   refreshOutsideEasel();
   colourBoxUpdate();
+  drawMusicButton();
   displayKey();
   drawLines();
 }
+
 function refreshOutsideEasel() {
   fill(220);
   rect(0, 0, windowWidth/3, windowHeight); //left of easel
@@ -84,6 +94,11 @@ function colourBoxUpdate() {
     text("shape height: "+shapeHeight, 50, 375);
     text("shape width: "+shapeWidth, 50, 400);
   }
+}
+
+function drawMusicButton() {
+  fill("orange");
+  ellipse(musicButton.x, musicButton.y, musicButton.diameter, musicButton.diameter);
 }
 
 function displayKey() { // shows all the instructions.
