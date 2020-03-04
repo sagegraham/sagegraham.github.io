@@ -36,6 +36,10 @@ let musicButton;
 let event; //drawing and song menu
 let song;
 
+function preload() {
+  musicButton = loadImage("assets/musicbutton.png");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   r = 0;
