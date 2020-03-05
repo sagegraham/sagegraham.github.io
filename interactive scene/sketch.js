@@ -101,8 +101,7 @@ function colourBoxUpdate() {
 }
 
 function drawMusicButton() {
-  fill("orange");
-  ellipse(musicButton.x, musicButton.y, musicButton.diameter, musicButton.diameter);
+  image(musicButton, windowWidth*5/6, windowHeight/8, musicButton.width, musicButton.height);
 }
 
 function displayKey() { // shows all the instructions.
