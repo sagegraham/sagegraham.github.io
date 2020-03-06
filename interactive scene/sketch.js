@@ -31,6 +31,7 @@ let dPenSize = 2; //change factor for pen size
 let easel; //dont think this needs to be a variable
 let easelPostion;
 let musicButton;
+let mButton;
 
 //event variables
 let event; //drawing and song menu
@@ -53,24 +54,28 @@ function setup() {
     height: windowHeight*2/3,
   };
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
-  musicButton = {
-    x: windowWidth*7/8,
-    y: windowHeight/6,
-    diameter: windowWidth/10,
+  mButton = {
+    image: musicButton,
+    x: windowWidth*5/6,
+    y: windowHeight/12,
+    width: musicButton.width*3/4,
+    height: musicButton.height*3/4
   };
   penSize = 1;
   event = "drawing";
 }
 
-function draw() { //mission: refresh everything but easel
+function draw() {
   noStroke();
   refreshOutsideEasel();
   colourBoxUpdate();
   drawMusicButton();
   displayKey();
   drawLines();
+  // displayMusicMenu();
 }
 
+//refreshes all the spaces outside of the easel so they do not have art on them
 function refreshOutsideEasel() {
   fill(220);
   rect(0, 0, windowWidth/3, windowHeight); //left of easel
@@ -90,18 +95,20 @@ function colourBoxUpdate() {
     text("green is not a creative colour!", 50, 250); //heheh easter egg time
   }
   else {
-    text("red value: "+r, 50, 250);
-    text("blue value: "+b, 50, 275);
-    text("green value: "+g, 50, 300);
-    text("alpha value (translucency): "+a, 50, 325);
+    text("red value: "+r+"; [ and ]", 50, 250);
+    text("blue value: "+b+"; , and .", 50, 275);
+    text("green value: "+g+"; ; and '", 50, 300);
+    text("alpha value (translucency): "+a+"; z and x", 50, 325);
 
     text("shape height: "+shapeHeight, 50, 375);
     text("shape width: "+shapeWidth, 50, 400);
+
+    text("pen size: "+penSize, 50, 450);
   }
 }
 
 function drawMusicButton() {
-  image(musicButton, windowWidth*5/6, windowHeight/8, musicButton.width, musicButton.height);
+  image(mButton.image, mButton.x, mButton.y, mButton.width, mButton.height);
 }
 
 function displayKey() { // shows all the instructions.
@@ -236,9 +243,17 @@ function keyPressed() {
 }
 
 //changes pen stroke size
-function mouseWheel() {
-  penSize += dPenSize;
+function mouseWheel(event) {
+  if (event.deltaY > 0) {
+    penSize += dPenSize;
+  }
+  else if (event.deltaY < 0 && penSize > 1) {
+    penSize -= dPenSize;
+  }
+  
 }
+
+//draws...lines when mouse input is given
 function drawLines() {
   stroke(color(r, g, b, a));
   strokeCap(ROUND);
@@ -261,3 +276,21 @@ function clearEasel() {
   fill("white");
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
 }
+
+//changes event
+function mousePressed() {
+  if (mouseX <= mButton.x && mouseX >= mButton.x + mButton.width &&
+  mouseY >= mButton.y && mouseY <= mButton.y + mButton.height && event === "drawing") {
+    event = "musicMenu";
+  }
+  else if (mouseX <= mButton.x && mouseX >= mButton.x + mButton.width &&
+  mouseY >= mButton.y && mouseY <= mButton.y + mButton.height && event === "musicMenu") {
+    event = "drawing";
+  }
+}
+
+// function displayMusicMenu() {
+//   if (event === "musicMenu") {
+    
+//   }
+// }
