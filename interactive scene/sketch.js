@@ -3,19 +3,13 @@
 // 02/12/20
 // 
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
-// ****to do list****
-//use text to show rgb (check!)
-//use text to show key (maybe have either in button or if rmb is pressed?) (check!)
-//make mouse drawing work (ugh) (check!)
-//music!
-  //will have to add library to index file (check!)
-  //add music files to "assets"
-//clean up draw loop
-//add variables to folders
-
-//user controlled values
+// The 'easel' in the program refreshes based on window size. A windowRefreshed() function is included (and works!) however is commented out.
+// Mouse wheel input is taken for pen size.
+//
+// Note: I was going to add music but made the executive decision to play Minecraft instead. Music additions/setup is commented out
+// on the following lines:  27, 28, 29, 30, 34, 51, 59, 66, 69, 104, 272, 283
+ 
+//user controlled values:
 let r;
 let g;
 let b;
@@ -23,23 +17,23 @@ let a;
 let shapeColour;
 let shapeHeight = 50;
 let shapeWidth = 50;
-let penSize; //(strokeWeight) controller,, use mousewheel to change it
+let penSize;
 
-
-let dVariables = 5; //delta variables is the change factor for r,g,b,a,height,width
-let dPenSize = 2; //change factor for pen size
-let easel; //dont think this needs to be a variable
+//change factors and objects:
+let dVariables = 5;
+let dPenSize = 2;
+let easel;
 let easelPostion;
-let musicButton;
-let mButton;
+// let musicButton;
+// let mButton;
 
 //event variables
-let event; //drawing and song menu
-let song;
+// let event; //drawing and song menu
+// let song;
 
-function preload() {
-  musicButton = loadImage("assets/musicbutton.png");
-}
+// function preload() {
+//   musicButton = loadImage("assets/musicbutton.png");
+// }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -54,28 +48,29 @@ function setup() {
     height: windowHeight*2/3,
   };
   easel = rect(easelPostion.x, easelPostion.y, easelPostion.width, easelPostion.height);
-  mButton = {
-    image: musicButton,
-    x: windowWidth*5/6,
-    y: windowHeight/12,
-    width: musicButton.width*3/4,
-    height: musicButton.height*3/4
-  };
+  // mButton = {
+  //   image: musicButton,
+  //   x: windowWidth*5/6,
+  //   y: windowHeight/12,
+  //   width: musicButton.width*3/4,
+  //   height: musicButton.height*3/4
+  // };
   penSize = 1;
-  event = "drawing";
+  // event = "drawing";
 }
 
 function draw() {
   noStroke();
   refreshOutsideEasel();
   colourBoxUpdate();
-  drawMusicButton();
+  // drawMusicButton();
   displayKey();
   drawLines();
   // displayMusicMenu();
 }
 
-//refreshes all the spaces outside of the easel so they do not have art on them
+//refreshes all the spaces outside of the easel so they do not have 'art' on them;
+//similar to having a window in the window (without all the work)
 function refreshOutsideEasel() {
   fill(220);
   rect(0, 0, windowWidth/3, windowHeight); //left of easel
@@ -85,7 +80,6 @@ function refreshOutsideEasel() {
 }
 
 function colourBoxUpdate() {
-  // shapeColour = color(r,g,b,a);
   noStroke();
   fill(r,g,b,a);
   rect(50, 50, 150, 150);
@@ -107,14 +101,15 @@ function colourBoxUpdate() {
   }
 }
 
-function drawMusicButton() {
-  image(mButton.image, mButton.x, mButton.y, mButton.width, mButton.height);
-}
+// function drawMusicButton() {
+//   image(mButton.image, mButton.x, mButton.y, mButton.width, mButton.height);
+// }
 
-function displayKey() { // shows all the instructions.
+//shows instructions.
+function displayKey() {
   textAlign(LEFT, TOP);
   fill(0);
-  text("this is the key for all the stupid buttons!", easelPostion.x, easelPostion.y + easelPostion.height - 50);
+  text("this is the key for all of the buttons!", easelPostion.x, easelPostion.y + easelPostion.height - 50);
 
   text("red values:", easelPostion.x + 20, easelPostion.y + easelPostion.height - 30);
   text("[ for more, ] for less.", easelPostion.x + 30, easelPostion.y + easelPostion.height - 15);
@@ -149,15 +144,15 @@ function displayKey() { // shows all the instructions.
 function keyPressed() {
   noStroke();
   //keys are used to adjust most of the scene's settings: colour, size, and shapes made.
-  //r value
 
+  //r value
   if (key === "[" && r <= 255 - dVariables) { 
     r+=dVariables;
   }
   else if (key === "]" && r >= dVariables) {
     r-=dVariables;
-    
   }
+
   //g value
   else if (key === ";" && g <= 255 - dVariables) {
     g+=dVariables;
@@ -194,6 +189,7 @@ function keyPressed() {
       shapeHeight -= dVariables;
     }
   }
+
   //width
   else if (key === "9") {
     if (shapeWidth <= 400) {
@@ -206,8 +202,9 @@ function keyPressed() {
     }
   }
 
+  //shapes:
   //circle
-  else if (key === "c") { // && inEasel()) {
+  else if (key === "c") {
     fill(r, g, b, a);
     ellipse(mouseX, mouseY, shapeHeight);
   }
@@ -225,13 +222,13 @@ function keyPressed() {
   }  
 
   //rectangle
-  else if (key === "r" && inEasel()) {
+  else if (key === "r") {
     fill(r, g, b, a);
     rect(mouseX, mouseY, shapeHeight, shapeWidth);
   } 
   
   //triangle
-  else if (key === "t" && inEasel()) {
+  else if (key === "t") {
     fill(r, g, b, a);
     triangle(mouseX - shapeWidth/2, mouseY + shapeHeight/2, mouseX, mouseY - shapeHeight/2, mouseX + shapeWidth/2, mouseY + shapeHeight/2);
   }
@@ -253,24 +250,18 @@ function mouseWheel(event) {
   
 }
 
-//draws...lines when mouse input is given
+//draws...lines...when mouse input is given
 function drawLines() {
   stroke(color(r, g, b, a));
   strokeCap(ROUND);
   strokeWeight(penSize);
+
   if (mouseIsPressed) {
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
 }
 
-//inEasel does exactly what it sounds like.
-function inEasel() {
-  return (mouseX >= easelPostion.x && mouseY >= easelPostion.y
-    && mouseX <= easelPostion.x + easelPostion.width && mouseY <= easelPostion.y + easelPostion.height);
-
-}
-
-//redraws easel to clear any previous drawings. 
+//'redraws' easel to clear any previous drawings. 
 function clearEasel() {
   noStroke();
   fill("white");
@@ -278,19 +269,19 @@ function clearEasel() {
 }
 
 //changes event
-function mousePressed() {
-  if (mouseX <= mButton.x && mouseX >= mButton.x + mButton.width &&
-  mouseY >= mButton.y && mouseY <= mButton.y + mButton.height && event === "drawing") {
-    event = "musicMenu";
-  }
-  else if (mouseX <= mButton.x && mouseX >= mButton.x + mButton.width &&
-  mouseY >= mButton.y && mouseY <= mButton.y + mButton.height && event === "musicMenu") {
-    event = "drawing";
-  }
-}
+// function mousePressed() {
+//   if (mouseX <= mButton.x && mouseX >= mButton.x + mButton.width &&
+//   mouseY >= mButton.y && mouseY <= mButton.y + mButton.height && event === "drawing") {
+//     event = "musicMenu";
+//   }
+//   else if (mouseX <= mButton.x && mouseX >= mButton.x + mButton.width &&
+//   mouseY >= mButton.y && mouseY <= mButton.y + mButton.height && event === "musicMenu") {
+//     event = "drawing";
+//   }
+// }
 
 // function displayMusicMenu() {
 //   if (event === "musicMenu") {
-    
+//    and then the bell rang...
 //   }
 // }
