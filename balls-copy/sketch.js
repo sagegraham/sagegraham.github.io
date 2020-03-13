@@ -18,10 +18,25 @@ function draw() {
   background("white");
   moveBalls();
   displayBalls();
+  checkCollision();
+}
+
+function mousePressed() {
+}
+
+function checkCollision() {
+  for (let i = 0; i < ballArray.length; i++) {
+    let distanceToMouse = dist(mouseX, mouseY, ballArray[i].x, ballArray[i].y);
+    if (distanceToMouse < ballArray[i].radius) {
+      //ballArray[i].colour = "black";
+      ballArray.splice(i, 1); //starting at i, delete one item
+    }
+  }
+
 }
 
 function moveBalls() {
-  for (let i = 0; i < ballArray.length; i++) {
+  for (let i = ballArray.length-1; i >= 0; i--) {
     let dx = random(-10, 10);
     let dy = random(-10, 10);
     ballArray[i].x += dx;
