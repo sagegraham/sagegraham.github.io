@@ -12,10 +12,10 @@ let state;
 let fruitArray = [];
 let fruitLimit = 10;
 
-let screen = {
-  width: windowWidth,
-  height: windowHeight,
-}
+let selectDiff;
+let instructions;
+
+let screen;
 
 let easy = {
   fruit: apples,
@@ -41,16 +41,20 @@ let backButton = {
 };
 
 function setup() {
+  // let screen = {
+  //   width: windowWidth,
+  //   height: windowHeight,
+  // }
   createCanvas(windowWidth, windowHeight);
   state = "startMenu";
 }
 
 function draw() {
-  background(220);
   if (state === "startMenu") {
     startMenu();
   }
   else if (state === "howTo") {
+    console.log("i hate myself");
     showInstructions();
   }
   else if (state === "selectDifficulty") {
@@ -65,42 +69,49 @@ function draw() {
   }
 
 function startMenu() {
+  console.log("maybe its working");
+  selectDiff = { 
+    x: windowWidth/3, 
+    y: windowHeight/5, 
+    width: windowWidth/3, 
+    height:windowHeight/5,
+  };
+  instructions = {
+    x: windowWidth/3, 
+    y: windowHeight*3/5, 
+    width: windowWidth/3, 
+    height: windowHeight/5,
+  };
+
   fill("red");
-  let selectDiff = { 
-    X: screen.width/3, 
-    y: screen.height/5, 
-    width: screen.width/3, 
-    height:screen.height/5,
-  };
-  let instructions = {
-    x: screen.width/3, 
-    y: screen.height*3/5, 
-    width: screen.width/3, 
-    height: screen.height/5,
-  };
   rect(selectDiff.x, selectDiff.y, selectDiff.width, selectDiff.height);
   rect(instructions.x, instructions.y, instructions.width, instructions.height);
   //add text
   //make it change the colour
-  if (mousePressed && mouseX >= selectDiff.x && mouseX <= selectDiff.width && 
+  if (mouseIsPressed && mouseX >= selectDiff.x && mouseX <= selectDiff.width && 
   mouseY >= selectDiff.y && mouseY <= selectDiff.height) {
     state = "selectDifficulty";
   }
-  if (mousePressed && mouseX >= instructions.x && mouseX <= instructions.width && 
-    mouseY >= instructions.y && mouseY <= instructions.height) {
+  if ((mouseIsPressed) && mouseX >= instructions.x && mouseX <= instructions.width+instructions.x && 
+    mouseY >= instructions.y && mouseY <= instructions.height+instructions.y) {
       state = "howTo";
+      console.log("hewwo");
+      background(255);
     }
 };
 
-function howTo() {
+function showInstructions() {
+  console.log("istg");
+  textSize(10);
+  fill(50);
   textAlign(CENTER, CENTER);
-  text("fruit will fall from the sky! use the arrow keys to move and catch the fruit in your basket!"
-  +" try to catch as many as you can. when "+fruitLimit+" of fruit touch the ground, the game is over.")
-  rect(backButton.x, backButton.y, backButton.width, backButton.height);
-  if (mousePressed && mouseX >= backButton.x && mouseX <= backButton.width &&
-  mouseY >= backButton.y && mouseY <= backButton.height) {
-    state = "startMenu";
-  };
+  text("fruit will fall from the sky! use the arrow keys to move and catch the fruit in your basket! try to catch as many as you can. when "+fruitLimit+" of fruit touch the ground, the game is over.");
+  console.log("pls");
+  // rect(backButton.x, backButton.y, backButton.width, backButton.height);
+  // if (mousePressed && mouseX >= backButton.x && mouseX <= backButton.width &&
+  // mouseY >= backButton.y && mouseY <= backButton.height) {
+  //   state = "startMenu";
+  // };
 };
 
 function selectGameMode() {
