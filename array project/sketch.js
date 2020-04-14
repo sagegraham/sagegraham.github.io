@@ -1,6 +1,6 @@
 // array/state variable project
 // sage graham
-// due april 8/20
+// due april 20/20
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -15,21 +15,28 @@ let fruitLimit = 10;
 let selectDiff;
 let instructions;
 
-let screen;
+// let screen;
+
+let apple;
+let orange;
+let peach;
+let easyButton;
+let normalButton;
+let hardButton;
 
 let easy = {
   fruit: apples,
-  icon: ellipse(0, random(windowWidth, windowHeight), 20, 20),
+  icon: image(apple, 0, random(windowWidth, windowHeight)),
   gravity: 0.3,
 };
 let normal = {
   fruit: oranges,
-  icon: ellipse(0, random(windowWidth, windowHeight), 20, 20),
+  icon: image(orange, 0, random(windowWidth, windowHeight)),
   gravity: 0.6,
 };
 let hard = {
   fruit: peaches,
-  icon: ellipse(0, random(windowWidth, windowHeight), 20, 20),
+  icon: image(peach, 0, random(windowWidth, windowHeight)),
   gravity: 1,
 };
 
@@ -38,7 +45,18 @@ let backButton = {
   y: 0,
   width: screen.width/12,
   height: screen.height/12,
-};
+}
+
+function preload() {
+  apple = loadImage("apple.png");
+  orange = loadImage("orange.png");
+  peach = loadImage("peach.png");
+
+  easyButton = loadImage("easy-icon.png");
+  normalButton = loadImage("normal-icon.png");
+  hardButton = loadImage("hard-icon.png");
+
+}
 
 function setup() {
   // let screen = {
@@ -65,7 +83,7 @@ function draw() {
     displayFruit();
     checkCollision();
     displayCounters();
-  }
+    }
   }
 
 function startMenu() {
@@ -115,5 +133,9 @@ function showInstructions() {
 };
 
 function selectGameMode() {
-  
+  background(104, 204, 191);
+  // imageMode(CENTER);
+  image(easyButton, windowWidth/2, windowHeight*1/6);
+  image(normalButton, windowwidth/2, windowHeight*1/3);
+  image(hardButton, windowwidth/2, windowHeight*1/2);
 }
