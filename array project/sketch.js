@@ -1,10 +1,11 @@
 // array/state variable project
+//    state variables are used for the game mode (easy, hard, etc) as well as the shown content (instructions, etc)
 // sage graham
 // due april 20/20
 // I am so sorry you had to look at this code
 // Extra for Experts:
 // - was attempted and then given up on
-// - it has an arrays (around L173) and state variables (pretty much everywhere)...just...doesn't work
+// - it has an array (around L174) and state variables (pretty much everywhere)...just...doesn't work
 
 //so many variables
 let state;
@@ -53,6 +54,7 @@ let backButton = {
   height: windowHeight/6,
 };
 
+
 function preload() {
   apple = loadImage("apple.png");
   orange = loadImage("orange.png");
@@ -65,10 +67,10 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  state = "startMenu";
-  fruitArray = [];  
+  state = "startMenu";  
 }
 
+//draw loop operates completely based on the state variable
 function draw() {
   if (state === "startMenu") {
     startMenu();
@@ -117,8 +119,7 @@ function startMenu() {
   fill("white");
   text("select difficulty", selectDiff.x, selectDiff.y);
   text("how to play", instructions.x, instructions.y);
-  //add text
-  //make it change the colour
+  
   if (mouseIsPressed && mouseX >= selectDiff.x && mouseX <= selectDiff.width && 
   mouseY >= selectDiff.y && mouseY <= selectDiff.height) {
     state = "selectDifficulty";
@@ -147,12 +148,12 @@ function showInstructions() {
 }
 
 function selectGameMode() {
-  catchCounter = 0;
-  dropCounter = 0;
   background(104, 204, 191);
-  image(easyButton, windowWidth/2, windowHeight*1/6);
+
+  image(easyButton, windowWidth/2, windowHeight*1/6); 
   image(normalButton, windowWidth/2, windowHeight*1/3);
   image(hardButton, windowWidth/2, windowHeight*1/2);
+
   if (mouseIsPressed) {
     if (mouseY > 0 && mouseY < windowHeight*1/3) {
       difficulty = "easy";
@@ -197,6 +198,7 @@ function addFruit() {
   fruitArray.push(newFruit);
 }
 
+//controls the user's 'basket' which is used to catch fruit
 function userBasket() {
   basket = rect(mouseX, windowHeight, 25, 25);
 }
@@ -225,7 +227,7 @@ function displayCounters() {
 function checkDrops() {
   if (dropCounter === fruitLimit) {
     state = "gameover";
-    clearInterval(fruitInt); //researched this too much but apparently it still won't work :/
+    clearInterval(fruitInt); //researched this fn too much but apparently it still won't work :/
   }
 }
 
@@ -238,6 +240,11 @@ function gameOver() {
 
   if (mouseIsPressed && mouseX >= windowWidth*2/5 && mouseX <= windowWidth*3/5 && 
     mouseY >= windowHeight*3/4 && mouseY <= windowHeight*7/8) {
+    //(re)setting array/counters to be empty
+    fruitArray = [];
+    catchCounter = 0;
+    dropCounter = 0;
+
     state = "startMenu";
   }
 }
